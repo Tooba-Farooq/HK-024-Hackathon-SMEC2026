@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Comparison Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+
+        .search-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 15px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .best-price {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+        }
+
+        .best-price h2 {
+            margin-bottom: 10px;
+        }
+
+        .best-price .price {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .website-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .amazon {
+            background: #ff9900;
+            color: white;
+        }
+
+        .ebay {
+            background: #e53238;
+            color: white;
+        }
+
+        .walmart {
+            background: #0071ce;
+            color: white;
+        }
+
+        .product-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .product-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .product-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .product-link:hover {
+            text-decoration: underline;
+        }
+
+        .note {
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛍️ Price Comparison Tool</h1>
+            <p>Compare prices across multiple e-commerce platforms</p>
+        </div>
+
+        <div class="search-box">
+            <div class="search-input-group">
+                <input type="text" id="searchInput" placeholder="Enter product name (e.g., laptop, headphones, camera)">
+                <button onclick="searchProducts()">Search</button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">Searching for best prices...</div>
+
+        <div class="best-price" id="bestPrice"></div>
+
+        <div class="results" id="results"></div>
+
+        <div class="note">
+            <strong>Note:</strong> This is a demonstration using simulated data. In production, you would integrate with actual e-commerce APIs like:
+            <ul style="margin-top: 10px; margin-left: 20px;">
+                <li>Amazon Product Advertising API</li>
+                <li>eBay Finding API</li>
+                <li>Walmart Open API</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Simulated product data for demonstration
+        const simulatedData = {
+            'laptop': [
+                { site: 'Amazon', name: 'Dell Inspiron 15 Laptop', price: 649.99, url: '#' },
+                { site: 'eBay', name: 'Dell Inspiron 15 Laptop', price: 629.99, url: '#' },
+                { site: 'Walmart', name: 'Dell Inspiron 15 Laptop', price: 659.99, url: '#' }
+            ],
+            'headphones': [
+                { site: 'Amazon', name: 'Sony WH-1000XM4 Headphones', price: 279.99, url: '#' },
+                { site: 'eBay', name: 'Sony WH-1000XM4 Headphones', price: 289.99, url: '#' },
+                { site: 'Walmart', name: 'Sony WH-1000XM4 Headphones', price: 269.99, url: '#' }
+            ],
+            'camera': [
+                { site: 'Amazon', name: 'Canon EOS Rebel T7 Camera', price: 449.99, url: '#' },
+                { site: 'eBay', name: 'Canon EOS Rebel T7 Camera', price: 439.99, url: '#' },
+                { site: 'Walmart', name: 'Canon EOS Rebel T7 Camera', price: 459.99, url: '#' }
+            ]
+        };
+
+        function searchProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            if (!query) {
+                alert('Please enter a product name');
+                return;
+            }
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('bestPrice').style.display = 'none';
+
+            // Simulate API delay
+            setTimeout(() => {
+                const products = simulatedData[query] || generateRandomProducts(query);
+                displayResults(products);
+                document.getElementById('loading').style.display = 'none';
+            }, 1000);
+        }
+
+        function generateRandomProducts(query) {
+            return [
+                { 
+                    site: 'Amazon', 
+                    name: `${query.charAt(0).toUpperCase() + query.slice(1)} - Premium Quality`, 
+                    price: Math.floor(Math.random() * 500) + 100, 
+                    url: '#' 
+                },
+                { 
+                    site: 'eBay', 
+                    name: `${query.charAt(0).toUpperCase() + query.slice(1)} - Best Deal`, 
+                    price: Math.floor(Math.random() * 500) + 100, 
+                    url: '#' 
+                },
+                { 
+                    site: 'Walmart', 
+                    name: `${query.charAt(0).toUpperCase() + query.slice(1)} - Top Rated`, 
+                    price: Math.floor(Math.random() * 500) + 100, 
+                    url: '#' 
+                }
+            ];
+        }
+
+        function displayResults(products) {
+            const resultsDiv = document.getElementById('results');
+            const bestPriceDiv = document.getElementById('bestPrice');
+
+            // Find best price
+            const bestProduct = products.reduce((min, p) => p.price < min.price ? p : min);
+
+            // Display best price
+            bestPriceDiv.innerHTML = `
+                <h2>🏆 Best Price Found</h2>
+                <div class="price">$${bestProduct.price.toFixed(2)}</div>
+                <p>Available at <strong>${bestProduct.site}</strong></p>
+            `;
+            bestPriceDiv.style.display = 'block';
+
+            // Display all results
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                
+                const badgeClass = product.site.toLowerCase();
+                
+                card.innerHTML = `
+                    <span class="website-badge ${badgeClass}">${product.site}</span>
+                    <div class="product-title">${product.name}</div>
+                    <div class="product-price">$${product.price.toFixed(2)}</div>
+                    ${product.price === bestProduct.price ? '<div style="color: #38ef7d; font-weight: bold;">✓ Best Price</div>' : ''}
+                    <a href="${product.url}" class="product-link">View on ${product.site} →</a>
+                `;
+                
+                resultsDiv.appendChild(card);
+            });
+        }
+
+        // Allow Enter key to trigger search
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchProducts();
+            }
+        });
+    </script>
+</body>
+</html>
