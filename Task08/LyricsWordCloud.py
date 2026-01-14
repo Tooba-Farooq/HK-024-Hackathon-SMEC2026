@@ -3,16 +3,14 @@ from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
 import re
 
-# Step 1: Add your Genius API token
-ACCESS_TOKEN = "YHiSarbyGP4Zg-btpcd7BzSR8Z-d30CTnAs2c65_9c_mNvaJMZnw6xaKH5rW2840"  # replace with your token
+ACCESS_TOKEN = "YHiSarbyGP4Zg-btpcd7BzSR8Z-d30CTnAs2c65_9c_mNvaJMZnw6xaKH5rW2840"  
 genius = lyricsgenius.Genius(ACCESS_TOKEN)
-genius.remove_section_headers = True  # optional: remove [Chorus], [Verse] etc.
+genius.remove_section_headers = True  # to remove words other than lyrics
 
-# Step 2: Get song info from user
-song_name = input("Enter song name: ")
-artist_name = input("Enter artist name (optional): ")
 
-# Step 3: Fetch lyrics
+song_name = input("Enter the song name: ")
+artist_name = input("Enter the artist name (optional): ")
+
 song = genius.search_song(song_name, artist_name)
 
 if song:
@@ -20,16 +18,22 @@ if song:
     print("\n=== Lyrics ===\n")
     print(lyrics)
 
-    # Step 4: Clean lyrics for word cloud
-    # Remove punctuation
-    clean_lyrics = re.sub(r'[^\w\s]', '', lyrics)
-    # Lowercase and remove stopwords
-    clean_lyrics = ' '.join([word.lower() for word in clean_lyrics.split() if word.lower() not in STOPWORDS])
+    # removing punctuation
+    lyrics_clean = re.sub(r'[^\w\s]', '', lyrics)
 
-    # Step 5: Generate word cloud (higher resolution looks sharper)
-    wordcloud = WordCloud(width=1600, height=800, background_color='white').generate(clean_lyrics)
 
-    wordcloud.to_file("wordcloud.png")
+    words = lyrics_clean.lower().split()
+    filtered_words = []
+    for word in words:
+        if word not in STOPWORDS:
+            filtered_words.append(word)
+
+    text_for_cloud = ' '.join(filtered_words)
+
+    
+    cloud = WordCloud(width=800, height=400, background_color='white').generate(text_for_cloud)
+
+    cloud.to_file("wordcloud.png")
 
 else:
-    print("Lyrics not found! Make sure you typed the correct song and artist.")
+    print("Lyrics not found! Check your song name and artist.")
