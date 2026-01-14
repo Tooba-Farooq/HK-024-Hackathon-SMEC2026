@@ -15,6 +15,7 @@ export async function GET(request: NextRequest) {
 
     const searchParams = request.nextUrl.searchParams;
     const type = searchParams.get('type') || 'followers';
+    const userId = searchParams.get('userId') || currentUser.id;
 
     if (type === 'followers') {
       const followers = await db
@@ -30,7 +31,7 @@ export async function GET(request: NextRequest) {
         .from(follow)
         .innerJoin(authUser, eq(follow.followerId, authUser.id))
         .leftJoin(userProfile, eq(follow.followerId, userProfile.userId))
-        .where(eq(follow.followingId, currentUser.id));
+        .where(eq(follow.followingId, userId));
 
       return NextResponse.json(followers);
     } else {
@@ -47,7 +48,7 @@ export async function GET(request: NextRequest) {
         .from(follow)
         .innerJoin(authUser, eq(follow.followingId, authUser.id))
         .leftJoin(userProfile, eq(follow.followingId, userProfile.userId))
-        .where(eq(follow.followerId, currentUser.id));
+        .where(eq(follow.followerId, userId));
 
       return NextResponse.json(following);
     }

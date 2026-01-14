@@ -5,12 +5,15 @@ import { userProfile } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { user as authUser } from '@/db/auth-schema';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const currentUser = await getCurrentUser();
     if (!currentUser) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    const searchParams = request.nextUrl.searchParams;
+    const userId = searchParams.get('userId') || currentUser.id;
 
     const [profile] = await db
       .select({
@@ -26,7 +29,7 @@ export async function GET() {
       })
       .from(userProfile)
       .innerJoin(authUser, eq(userProfile.userId, authUser.id))
-      .where(eq(userProfile.userId, currentUser.id))
+      .where(eq(userProfile.userId, userId))
       .limit(1);
 
     if (!profile) {

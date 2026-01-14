@@ -51,7 +51,7 @@ export default function SignupPage() {
 
       if (result.data?.user) {
         await new Promise((resolve) => setTimeout(resolve, 500));
-        router.push("/profile");
+        router.push("/feed");
       }
     } catch {
       setError("An error occurred. Please try again.");

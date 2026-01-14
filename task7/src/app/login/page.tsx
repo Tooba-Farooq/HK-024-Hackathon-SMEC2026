@@ -35,7 +35,7 @@ export default function LoginPage() {
       }
 
       await new Promise((resolve) => setTimeout(resolve, 300));
-      router.push("/profile");
+      router.push("/feed");
     } catch {
       setError("An error occurred. Please try again.");
       setLoading(false);
