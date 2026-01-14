@@ -1,0 +1,193 @@
+[
+  {
+    "id": "1",
+    "date": "01/10/2026",
+    "merchant": "Whole Foods Market",
+    "total": 87.45,
+    "items": [
+      "Organic Apples",
+      "Almond Milk",
+      "Chicken Breast",
+      "Mixed Greens"
+    ],
+    "category": "Groceries",
+    "timestamp": "2026-01-10T10:30:00Z"
+  },
+  {
+    "id": "2",
+    "date": "01/11/2026",
+    "merchant": "Starbucks Coffee",
+    "total": 12.5,
+    "items": [
+      "Latte",
+      "Croissant"
+    ],
+    "category": "Dining",
+    "timestamp": "2026-01-11T08:15:00Z"
+  },
+  {
+    "id": "3",
+    "date": "01/12/2026",
+    "merchant": "Shell Gas Station",
+    "total": 45,
+    "items": [
+      "Gasoline"
+    ],
+    "category": "Transport",
+    "timestamp": "2026-01-12T17:45:00Z"
+  },
+  {
+    "id": "4",
+    "date": "01/13/2026",
+    "merchant": "Amazon",
+    "total": 129.99,
+    "items": [
+      "Wireless Mouse",
+      "USB Cable",
+      "Phone Case"
+    ],
+    "category": "Shopping",
+    "timestamp": "2026-01-13T14:20:00Z"
+  },
+  {
+    "id": "5",
+    "date": "01/14/2026",
+    "merchant": "CVS Pharmacy",
+    "total": 34.25,
+    "items": [
+      "Vitamins",
+      "Pain Relief",
+      "First Aid Kit"
+    ],
+    "category": "Healthcare",
+    "timestamp": "2026-01-14T11:00:00Z"
+  },
+  {
+    "date": "01/15/2026",
+    "total": 29.68,
+    "merchant": "WALMART SUPERCENTER",
+    "items": [
+      "ORGANIC BANANAS",
+      "WHOLE MILK",
+      "BREAD WHEAT",
+      "CHICKEN BREAST",
+      "TOMATOES",
+      "LETTUCE",
+      "SUBTOTAL",
+      "TAX",
+      "TOTAL"
+    ],
+    "category": "Groceries",
+    "id": "1768375180908",
+    "timestamp": "2026-01-14T07:19:40.908Z",
+    "rawText": "\n    WALMART SUPERCENTER\n    123 MAIN STREET\n    ANYTOWN, CA 12345\n    \n    01/15/2026  10:30 AM\n    \n    ORGANIC BANANAS    $3.99\n    WHOLE MILK         $4.50\n    BREAD WHEAT        $2.99\n    CHICKEN BREAST     $12.45\n    TOMATOES          $3.50\n    LETTUCE           $2.25\n    \n    SUBTOTAL          $29.68\n    TAX               $2.38\n    TOTAL             $32.06\n    \n    VISA ****1234\n    THANK YOU FOR SHOPPING!\n  "
+  },
+  {
+    "date": "01/15/2026",
+    "total": 29.68,
+    "merchant": "WALMART SUPERCENTER",
+    "items": [
+      "ORGANIC BANANAS",
+      "WHOLE MILK",
+      "BREAD WHEAT",
+      "CHICKEN BREAST",
+      "TOMATOES",
+      "LETTUCE",
+      "SUBTOTAL",
+      "TAX",
+      "TOTAL"
+    ],
+    "category": "Groceries",
+    "id": "1768375368543",
+    "timestamp": "2026-01-14T07:22:48.543Z",
+    "rawText": "\n    WALMART SUPERCENTER\n    123 MAIN STREET\n    ANYTOWN, CA 12345\n    \n    01/15/2026  10:30 AM\n    \n    ORGANIC BANANAS    $3.99\n    WHOLE MILK         $4.50\n    BREAD WHEAT        $2.99\n    CHICKEN BREAST     $12.45\n    TOMATOES          $3.50\n    LETTUCE           $2.25\n    \n    SUBTOTAL          $29.68\n    TAX               $2.38\n    TOTAL             $32.06\n    \n    VISA ****1234\n    THANK YOU FOR SHOPPING!\n  "
+  },
+  {
+    "date": "01/15/2026",
+    "total": 29.68,
+    "merchant": "WALMART SUPERCENTER",
+    "items": [
+      "ORGANIC BANANAS",
+      "WHOLE MILK",
+      "BREAD WHEAT",
+      "CHICKEN BREAST",
+      "TOMATOES",
+      "LETTUCE",
+      "SUBTOTAL",
+      "TAX",
+      "TOTAL"
+    ],
+    "category": "Groceries",
+    "id": "1768375463362",
+    "timestamp": "2026-01-14T07:24:23.362Z",
+    "rawText": "\n    WALMART SUPERCENTER\n    123 MAIN STREET\n    ANYTOWN, CA 12345\n    \n    01/15/2026  10:30 AM\n    \n    ORGANIC BANANAS    $3.99\n    WHOLE MILK         $4.50\n    BREAD WHEAT        $2.99\n    CHICKEN BREAST     $12.45\n    TOMATOES          $3.50\n    LETTUCE           $2.25\n    \n    SUBTOTAL          $29.68\n    TAX               $2.38\n    TOTAL             $32.06\n    \n    VISA ****1234\n    THANK YOU FOR SHOPPING!\n  "
+  },
+  {
+    "date": "01/15/2026",
+    "total": 29.68,
+    "merchant": "WALMART SUPERCENTER",
+    "items": [
+      "ORGANIC BANANAS",
+      "WHOLE MILK",
+      "BREAD WHEAT",
+      "CHICKEN BREAST",
+      "TOMATOES",
+      "LETTUCE",
+      "SUBTOTAL",
+      "TAX",
+      "TOTAL"
+    ],
+    "category": "Groceries",
+    "id": "1768375501657",
+    "timestamp": "2026-01-14T07:25:01.657Z",
+    "rawText": "\n    WALMART SUPERCENTER\n    123 MAIN STREET\n    ANYTOWN, CA 12345\n    \n    01/15/2026  10:30 AM\n    \n    ORGANIC BANANAS    $3.99\n    WHOLE MILK         $4.50\n    BREAD WHEAT        $2.99\n    CHICKEN BREAST     $12.45\n    TOMATOES          $3.50\n    LETTUCE           $2.25\n    \n    SUBTOTAL          $29.68\n    TAX               $2.38\n    TOTAL             $32.06\n    \n    VISA ****1234\n    THANK YOU FOR SHOPPING!\n  "
+  },
+  {
+    "date": "25/12/2018",
+    "total": 9,
+    "merchant": "tan woon yann",
+    "items": [
+      "1PC * 900) 0.00",
+      "Total",
+      "Rour ding Adjustment",
+      "Round d Total (RM):",
+      "Cash To"
+    ],
+    "category": "Utilities",
+    "id": "1768375966677",
+    "timestamp": "2026-01-14T07:32:46.677Z",
+    "rawText": "tan woon yann\nBOOK TA .K (TAMAN DAYA) SDN 8HD\n789417-W\nNOE 55,57 & 59, JALAN SACU 18,\nTAMAN DAYA,\n81100 JOHOR BAHRU,\nJOHOR\nOw ;\nUERTIHTH\nDocument No: TDD1167104\nDate 25/12/2018 B:13:39 PM\nCashier MANIS\nMember\nCASH BILL\nCODE/DESC PRICE Disc AMO!\nQryY Ri RI\n9556939040116 KF MODELLING (ny KIDDY FISH |\n1PC * 900) 0.00 9.00\nTotal 9.00\nRour ding Adjustment 0.00\nRound d Total (RM): 9.60\nCash To 30.00\nCHANGE 00\n7-00\nGOODS 30LD ARE NOT RE TURNAT fi\nEXCHANGEABLE\nGr, BOER EE\nTHANK YOU\nPLEASE COME AGAIN |\n"
+  },
+  {
+    "date": "25/12/2018",
+    "total": 9,
+    "merchant": "tan woon yann",
+    "items": [
+      "1PC * 900) 0.00",
+      "Total",
+      "Rour ding Adjustment",
+      "Round d Total (RM):",
+      "Cash To"
+    ],
+    "category": "Utilities",
+    "id": "1768377610172",
+    "timestamp": "2026-01-14T08:00:10.172Z",
+    "rawText": "tan woon yann\nBOOK TA .K (TAMAN DAYA) SDN 8HD\n789417-W\nNOE 55,57 & 59, JALAN SACU 18,\nTAMAN DAYA,\n81100 JOHOR BAHRU,\nJOHOR\nOw ;\nUERTIHTH\nDocument No: TDD1167104\nDate 25/12/2018 B:13:39 PM\nCashier MANIS\nMember\nCASH BILL\nCODE/DESC PRICE Disc AMO!\nQryY Ri RI\n9556939040116 KF MODELLING (ny KIDDY FISH |\n1PC * 900) 0.00 9.00\nTotal 9.00\nRour ding Adjustment 0.00\nRound d Total (RM): 9.60\nCash To 30.00\nCHANGE 00\n7-00\nGOODS 30LD ARE NOT RE TURNAT fi\nEXCHANGEABLE\nGr, BOER EE\nTHANK YOU\nPLEASE COME AGAIN |\n"
+  },
+  {
+    "date": "25/12/2018",
+    "total": 9,
+    "merchant": "tan woon yann",
+    "items": [
+      "1PC * 900) 0.00",
+      "Total",
+      "Rour ding Adjustment",
+      "Round d Total (RM):",
+      "Cash To"
+    ],
+    "category": "Utilities",
+    "id": "1768378131851",
+    "timestamp": "2026-01-14T08:08:51.851Z",
+    "rawText": "tan woon yann\nBOOK TA .K (TAMAN DAYA) SDN 8HD\n789417-W\nNOE 55,57 & 59, JALAN SACU 18,\nTAMAN DAYA,\n81100 JOHOR BAHRU,\nJOHOR\nOw ;\nUERTIHTH\nDocument No: TDD1167104\nDate 25/12/2018 B:13:39 PM\nCashier MANIS\nMember\nCASH BILL\nCODE/DESC PRICE Disc AMO!\nQryY Ri RI\n9556939040116 KF MODELLING (ny KIDDY FISH |\n1PC * 900) 0.00 9.00\nTotal 9.00\nRour ding Adjustment 0.00\nRound d Total (RM): 9.60\nCash To 30.00\nCHANGE 00\n7-00\nGOODS 30LD ARE NOT RE TURNAT fi\nEXCHANGEABLE\nGr, BOER EE\nTHANK YOU\nPLEASE COME AGAIN |\n"
+  }
+]
