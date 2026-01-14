@@ -1,0 +1,196 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { createUserRoleAction } from "@/serverActions/auth/actions";
+import Link from "next/link";
+
+export default function SignupPage() {
+  const router = useRouter();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState<"passenger" | "driver">("passenger");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const result = await authClient.signUp.email({
+        email,
+        password,
+        name,
+      });
+
+      if (result.error) {
+        setError(result.error.message || "Sign up failed");
+        setLoading(false);
+        return;
+      }
+
+      if (result.data?.user) {
+        // Wait a bit for the session to be established
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        // Create user with role using server action
+        const roleResult = await createUserRoleAction(result.data.user.id, role);
+
+        if (!roleResult.success) {
+          setError(roleResult.error || "Failed to set user role");
+          setLoading(false);
+          return;
+        }
+
+        // Wait a bit more before redirecting
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
+        // Redirect based on role
+        if (role === "driver") {
+          router.push("/dashboard/driver");
+        } else {
+          router.push("/dashboard/passenger");
+        }
+      }
+    } catch {
+      setError("An error occurred. Please try again.");
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-red-50 to-black p-4">
+      <div className="w-full max-w-md animate-in fade-in-0 zoom-in-95 duration-500">
+        <Card className="border-0 shadow-2xl backdrop-blur-sm bg-white/90 dark:bg-slate-800/90">
+          <CardHeader className="space-y-1 text-center">
+            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-red-600 to-black bg-clip-text text-transparent">
+              Create Account
+            </CardTitle>
+            <CardDescription className="text-base">
+              Sign up to get started
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSignup} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="role">Sign Up As</Label>
+                <Tabs value={role} onValueChange={(v) => setRole(v as "passenger" | "driver")}>
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="passenger">Passenger</TabsTrigger>
+                    <TabsTrigger value="driver">Driver</TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="h-11"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="h-11"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="At least 6 characters"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="h-11"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="Confirm your password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  className="h-11"
+                />
+              </div>
+
+              {error && (
+                <div className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 p-3 rounded-md border border-red-200 dark:border-red-800 animate-in slide-in-from-top-2">
+                  {error}
+                </div>
+              )}
+
+              <Button
+                type="submit"
+                className="w-full h-11 bg-red-600 hover:bg-red-700 text-white transition-all duration-200 shadow-lg hover:shadow-xl"
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="animate-spin">⏳</span>
+                    Creating account...
+                  </span>
+                ) : (
+                  "Sign Up"
+                )}
+              </Button>
+            </form>
+
+            <div className="mt-6 text-center text-sm">
+              <span className="text-muted-foreground">Already have an account? </span>
+              <Link
+                href="/login"
+                className="text-red-600 hover:text-red-700 font-medium hover:underline"
+              >
+                Sign in
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
