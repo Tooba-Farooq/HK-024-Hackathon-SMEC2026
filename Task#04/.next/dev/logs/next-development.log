@@ -1,0 +1,6 @@
+[00:00:14.264] Server  ERROR   Error: Cannot find module '/Users/bytecorp/Downloads/Projects/HK-024-Hackathon-SMEC2026/Task#04/.next/dev/server/middleware-manifest.json'
+Require stack:
+- /Users/bytecorp/Downloads/Projects/HK-024-Hackathon-SMEC2026/Task#04/node_modules/next/dist/server/next-server.js
+- /Users/bytecorp/Downloads/Projects/HK-024-Hackathon-SMEC2026/Task#04/node_modules/next/dist/server/dev/next-dev-server.js
+- /Users/bytecorp/Downloads/Projects/HK-024-Hackathon-SMEC2026/Task#04/node_modules/next/dist/server/next.js
+- /Users/bytecorp/Downloads/Projects/HK-024-Hackathon-SMEC2026/Task#04/node_modules/next/dist/server/lib/start-server.js

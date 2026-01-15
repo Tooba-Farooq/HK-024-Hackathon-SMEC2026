@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1768416200885,
+      "tag": "0000_boring_zombie",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1768417283647,
+      "tag": "0001_slim_scarlet_spider",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1768420672191,
+      "tag": "0002_spooky_ravenous",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1768422894368,
+      "tag": "0003_remove_lat_lng_fields",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1768426194611,
+      "tag": "0004_nostalgic_ender_wiggin",
+      "breakpoints": true
+    }
+  ]
+}
