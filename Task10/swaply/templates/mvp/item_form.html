@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Item | Swaply{% endblock %}
+
+{% block content %}
+  <div class="card-soft p-4 p-md-5" style="max-width: 760px; margin: 0 auto;">
+    <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+      <h1 class="h4 mb-0">Edit Item</h1>
+      {% with next_url=request.GET.next %}
+        <a class="btn btn-outline-secondary btn-sm" href="{% if next_url %}{{ next_url }}{% else %}{% url 'mvp:my_items' %}{% endif %}">Back</a>
+      {% endwith %}
+    </div>
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+
+      {% if form.errors %}
+        <div class="alert alert-danger">
+          {% for field in form %}
+            {% for error in field.errors %}
+              <div><strong>{{ field.label }}:</strong> {{ error }}</div>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <div>{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        {{ form.title }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        {{ form.description }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Image</label>
+        <input class="form-control" type="file" name="image" accept="image/*" />
+        {% if item.image %}
+          <div class="small muted mt-2">Current: <a href="{{ item.image.url }}" target="_blank">view</a></div>
+        {% endif %}
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Mode</label>
+        {{ form.mode }}
+      </div>
+
+      <button class="btn btn-primary" type="submit">Save</button>
+    </form>
+  </div>
+{% endblock %}

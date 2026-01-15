@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Reviews | Swaply{% endblock %}
+
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between gap-3 mb-4">
+    <h1 class="h4 mb-0">Reviews</h1>
+  </div>
+
+  <div class="card-soft p-4 p-md-5 mb-4">
+    <div class="d-flex align-items-center justify-content-between gap-3 mb-2">
+      <h2 class="h5 mb-0">Average rating</h2>
+      {% if rating_count %}<span class="small muted">{{ rating_count }} reviews</span>{% endif %}
+    </div>
+    {% if rating_count %}
+      <div class="fw-semibold">{{ rating_avg|floatformat:1 }} / 5</div>
+    {% else %}
+      <div class="muted">No reviews yet.</div>
+    {% endif %}
+  </div>
+
+  <div class="card-soft p-4 p-md-5">
+    <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+      <h2 class="h5 mb-0">Latest reviews</h2>
+      {% if rating_count %}<span class="small muted">Most recent first</span>{% endif %}
+    </div>
+
+    {% if reviews_received %}
+      <div class="row g-3">
+        {% for r in reviews_received %}
+          <div class="col-12">
+            <div class="card-soft p-3" style="box-shadow:none;">
+              <div class="d-flex align-items-start justify-content-between gap-3">
+                <div>
+                  <div class="fw-semibold">{{ r.rating }}/5</div>
+                  <div class="small muted">By {{ r.reviewer.username|default:r.reviewer.email }} · {{ r.created_at|date:"M d, Y" }}</div>
+                  <div class="small muted">Item: {{ r.item_request.item.title }}</div>
+                </div>
+              </div>
+
+              {% if r.text %}
+                <div class="mt-2">{{ r.text }}</div>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="muted">No reviews yet.</div>
+    {% endif %}
+  </div>
+{% endblock %}

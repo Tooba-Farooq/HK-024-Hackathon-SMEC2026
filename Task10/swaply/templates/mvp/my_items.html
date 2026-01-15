@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}My Items | Swaply{% endblock %}
+
+{% block extra_head %}
+  <style>
+    .item-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      filter: none !important;
+      -webkit-filter: none !important;
+      image-rendering: auto;
+      border-radius: 14px;
+      border: 1px solid #e7eaf1;
+      background: #f8fafc;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between gap-3 mb-4">
+    <h1 class="h4 mb-0">My Items</h1>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-lg-5">
+      <div class="card-soft p-4">
+        <h2 class="h5 mb-3">Add Item</h2>
+
+        <form method="post" enctype="multipart/form-data" novalidate>
+          {% csrf_token %}
+
+          {% if item_form.errors %}
+            <div class="alert alert-danger">
+              {% for field in item_form %}
+                {% for error in field.errors %}
+                  <div><strong>{{ field.label }}:</strong> {{ error }}</div>
+                {% endfor %}
+              {% endfor %}
+              {% for error in item_form.non_field_errors %}
+                <div>{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <div class="mb-3">
+            <label class="form-label">Title</label>
+            {{ item_form.title }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            {{ item_form.description }}
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Image</label>
+            <input class="form-control" type="file" name="image" accept="image/*" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Mode</label>
+            {{ item_form.mode }}
+          </div>
+
+          <button class="btn btn-primary w-100" type="submit">Add</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-7">
+      <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+        <h2 class="h5 mb-0">Items</h2>
+
+        <form method="get" class="d-flex align-items-center gap-2">
+          <label class="small muted" for="modeFilter">Filter</label>
+          <select id="modeFilter" name="mode" class="form-select" style="max-width: 180px;" onchange="this.form.submit()">
+            <option value="" {% if not mode %}selected{% endif %}>All</option>
+            <option value="rent" {% if mode == 'rent' %}selected{% endif %}>Rent</option>
+            <option value="swap" {% if mode == 'swap' %}selected{% endif %}>Swap</option>
+          </select>
+        </form>
+      </div>
+
+      {% if items %}
+        <div class="row g-3">
+          {% for item in items %}
+            <div class="col-12">
+              <div class="card-soft p-3">
+                <div class="row g-3 align-items-start">
+                  <div class="col-12 col-md-5">
+                    {% if item.image %}
+                      <img class="item-img" src="{{ item.image.url }}" alt="{{ item.title }}" />
+                    {% else %}
+                      <div class="item-img d-flex align-items-center justify-content-center muted">No image</div>
+                    {% endif %}
+                  </div>
+
+                  <div class="col-12 col-md-7">
+                    <div class="d-flex align-items-start justify-content-between gap-2">
+                      <div>
+                        <div class="d-flex align-items-center gap-2">
+                          <h3 class="h6 mb-0">{{ item.title }}</h3>
+                          {% if item.mode == 'rent' %}
+                            <span class="badge text-bg-info">Rent</span>
+                          {% else %}
+                            <span class="badge text-bg-secondary">Swap</span>
+                          {% endif %}
+                        </div>
+                        {% if item.description %}
+                          <p class="muted mb-2 mt-2">{{ item.description }}</p>
+                        {% endif %}
+                        <div class="small muted">Added {{ item.created_at|date:"M d, Y" }}</div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3">
+                      <a class="btn btn-outline-primary btn-sm" href="{% url 'mvp:item_edit' item.id %}?next={{ request.get_full_path|urlencode }}">Edit</a>
+                      <a class="btn btn-outline-danger btn-sm" href="{% url 'mvp:item_delete' item.id %}?next={{ request.get_full_path|urlencode }}">Delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="card-soft p-4">
+          <div class="muted">No items yet. Add your first item on the left.</div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

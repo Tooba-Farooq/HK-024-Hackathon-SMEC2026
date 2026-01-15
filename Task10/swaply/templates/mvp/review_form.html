@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Leave Review | Swaply{% endblock %}
+
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+    <div>
+      <h1 class="h4 mb-1">Leave a Review</h1>
+      <div class="muted">Rate the owner for “{{ item.title }}”</div>
+    </div>
+    <a class="btn btn-outline-secondary btn-sm" href="{% url 'mvp:item_detail' item.id %}">Back</a>
+  </div>
+
+  <div class="card-soft p-4 p-md-5">
+    <div class="mb-3">
+      <div class="small muted">Owner</div>
+      <div class="fw-semibold">{{ reviewed_user.username|default:reviewed_user.email }}</div>
+    </div>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      {% if request.GET.next %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}" />
+      {% endif %}
+
+      {% if form.errors %}
+        <div class="alert alert-danger">
+          {% for field in form %}
+            {% for error in field.errors %}
+              <div><strong>{{ field.label }}:</strong> {{ error }}</div>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <div>{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="mb-3">
+        <label class="form-label">Rating (1–5)</label>
+        {{ form.rating }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Review (optional)</label>
+        {{ form.text }}
+      </div>
+
+      <div class="d-flex gap-2">
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <a class="btn btn-outline-secondary" href="{% url 'mvp:item_detail' item.id %}">Cancel</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

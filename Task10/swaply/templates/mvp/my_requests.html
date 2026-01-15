@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}My Requests | Swaply{% endblock %}
+
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between gap-3 mb-4">
+    <h1 class="h4 mb-0">My Requests</h1>
+  </div>
+
+  <div class="card-soft p-4 p-md-5">
+    <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+      <h2 class="h5 mb-0">Pending</h2>
+      <span class="small muted">Waiting for owner</span>
+    </div>
+
+    {% if my_requests_pending %}
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Item name</th>
+              <th>Owner</th>
+              <th>Status</th>
+              <th class="text-end">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for req in my_requests_pending %}
+              <tr>
+                <td class="fw-semibold">
+                  <a class="text-decoration-none" href="{% url 'mvp:item_detail' req.item.id %}">{{ req.item.title }}</a>
+                </td>
+                <td>{{ req.item.owner.username|default:req.item.owner.email }}</td>
+                <td><span class="badge text-bg-warning">Pending</span></td>
+                <td class="text-end small muted">{{ req.created_at|date:"M d, Y" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="muted">You have no pending requests.</div>
+    {% endif %}
+  </div>
+
+  <div class="card-soft p-4 p-md-5 mt-4">
+    <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+      <h2 class="h5 mb-0">Completed</h2>
+      <span class="small muted">Accepted / Rejected</span>
+    </div>
+
+    {% if my_requests_completed %}
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Item name</th>
+              <th>Owner</th>
+              <th>Status</th>
+              <th>Review</th>
+              <th class="text-end">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for req in my_requests_completed %}
+              <tr>
+                <td class="fw-semibold">
+                  <a class="text-decoration-none" href="{% url 'mvp:item_detail' req.item.id %}">{{ req.item.title }}</a>
+                </td>
+                <td>{{ req.item.owner.username|default:req.item.owner.email }}</td>
+                <td>
+                  {% if req.status == 'accepted' %}
+                    <span class="badge text-bg-success">Accepted</span>
+                  {% elif req.status == 'rejected' %}
+                    <span class="badge text-bg-danger">Rejected</span>
+                  {% else %}
+                    <span class="badge text-bg-secondary">{{ req.status|title }}</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if req.status == 'accepted' %}
+                    {% if req.has_review %}
+                      <span class="badge text-bg-secondary">Reviewed</span>
+                    {% else %}
+                      <a class="btn btn-sm btn-outline-success" href="{% url 'mvp:leave_review' req.id %}?next={{ request.get_full_path|urlencode }}">Leave review</a>
+                    {% endif %}
+                  {% else %}
+                    <span class="muted small">—</span>
+                  {% endif %}
+                </td>
+                <td class="text-end small muted">{{ req.created_at|date:"M d, Y" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="muted">You have no completed requests yet.</div>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard | Swaply{% endblock %}
+
+{% block extra_head %}
+<style>
+  /* Make hero span full viewport width even inside base.html .container */
+  .hero-fullbleed {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+
+  .hero-carousel {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #e7eaf1;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.10);
+    background: #0f172a;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: clamp(420px, 78vh, 720px);
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    filter: none !important;
+    -webkit-filter: none !important;
+    image-rendering: auto;
+    transform: translateZ(0);
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(15, 23, 42, 0.65),
+      rgba(15, 23, 42, 0.35)
+    );
+    display: flex;
+    align-items: center;
+    padding: clamp(1.25rem, 3vw, 3rem);
+    color: #fff;
+  }
+
+  .hero-content {
+    max-width: 520px;
+  }
+
+  .hero-content h1 {
+    letter-spacing: -0.4px;
+  }
+
+  .hero-content .btn {
+    border-radius: 14px;
+    padding: 0.6rem 1.25rem;
+  }
+
+  .hero-carousel .carousel-indicators [data-bs-target] {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+  }
+
+  .item-card-img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom: 1px solid #e7eaf1;
+    background: #f8fafc;
+  }
+
+  .request-btn {
+    z-index: 3;
+    position: relative;
+  }
+
+  .empty-hero {
+    border-radius: 18px;
+    border: 1px dashed #cbd5e1;
+    background: linear-gradient(180deg, #ffffff, #f8fafc);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero-fullbleed hero-carousel mb-4">
+  <div id="dashboardHero" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-touch="true">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#dashboardHero" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#dashboardHero" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#dashboardHero" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="5000">
+        <img class="hero-img" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1600&q=80" alt="New Season Essentials" />
+        <div class="hero-overlay">
+          <div class="hero-content">
+            <h1 class="display-5 fw-bold mb-3">New Season Essentials</h1>
+            <p class="mb-4 text-white-50">Fresh picks, smart prices</p>
+            <a href="#items" class="btn btn-primary">Browse items</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-item" data-bs-interval="5000">
+        <img class="hero-img" src="https://images.unsplash.com/photo-1521337706264-a414f153a5ed?auto=format&fit=crop&w=1600&q=80" alt="Style Your Cart" />
+        <div class="hero-overlay">
+          <div class="hero-content">
+            <h1 class="display-5 fw-bold mb-3">Style Your Cart</h1>
+            <p class="mb-4 text-white-50">Add favorites in one click</p>
+            <a href="{% url 'mvp:profile' %}" class="btn btn-primary">Add your item</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-item" data-bs-interval="5000">
+        <img class="hero-img" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1600&q=80" alt="Fast & Easy Checkout" />
+        <div class="hero-overlay">
+          <div class="hero-content">
+            <h1 class="display-5 fw-bold mb-3">Fast &amp; Easy Checkout</h1>
+            <p class="mb-4 text-white-50">Shop smooth, save time</p>
+            <a href="{% url 'mvp:profile' %}" class="btn btn-primary">Go to profile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#dashboardHero" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#dashboardHero" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</section>
+
+<!-- ITEMS HEADER -->
+<div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-3 mb-3" id="items">
+  <div>
+    <h3 class="h4 mb-1">Available Items</h3>
+    <div class="text-muted">Items listed by other users</div>
+  </div>
+
+  <form method="get" class="d-flex align-items-center gap-2">
+    <label class="small text-muted">Filter</label>
+    <select name="mode" class="form-select" style="max-width:180px" onchange="this.form.submit()">
+      <option value="">All</option>
+      <option value="rent" {% if mode == 'rent' %}selected{% endif %}>Rent</option>
+      <option value="swap" {% if mode == 'swap' %}selected{% endif %}>Swap</option>
+    </select>
+  </form>
+</div>
+
+<!-- ITEMS GRID -->
+{% if items %}
+<div class="row g-3">
+  {% for item in items %}
+  <div class="col-12 col-sm-6 col-lg-4">
+    <div class="card h-100 border-0 shadow-sm overflow-hidden">
+      {% if item.image %}
+        <img src="{{ item.image.url }}" class="item-card-img" alt="{{ item.title }}">
+      {% else %}
+        <div class="item-card-img d-flex align-items-center justify-content-center text-muted">
+          No image
+        </div>
+      {% endif %}
+
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h6 class="mb-1">{{ item.title }}</h6>
+            <small class="text-muted">by {{ item.owner.username }}</small>
+          </div>
+          <span class="badge {% if item.mode == 'rent' %}text-bg-info{% else %}text-bg-secondary{% endif %}">
+            {{ item.mode|title }}
+          </span>
+        </div>
+
+        <a href="{% url 'mvp:item_detail' item.id %}" class="stretched-link"></a>
+      </div>
+
+      <div class="card-footer bg-white border-0 pt-0">
+        <form method="post" action="{% url 'mvp:item_request' item.id %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+          <button class="btn btn-primary w-100 request-btn">Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-hero p-5 text-center">
+  <h5>No items available</h5>
+  <p class="text-muted mb-3">Add your own items so others can request them.</p>
+  <a href="{% url 'mvp:profile' %}" class="btn btn-primary">Add item</a>
+</div>
+{% endif %}
+
+{% endblock %}

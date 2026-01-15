@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Django App{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            background: #f4f6fb;
+            color: #0f172a;
+        }
+        .topnav {
+            background: #ffffff !important;
+            border-bottom: 1px solid #e7eaf1;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        }
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            font-weight: 900;
+            letter-spacing: 0.2px;
+            color: #0f172a;
+        }
+        .brand-badge {
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+        }
+        .card-soft {
+            background: #fff;
+            border: 1px solid #e7eaf1;
+            border-radius: 18px;
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.10);
+        }
+        .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            display: inline-grid;
+            place-items: center;
+            background: #f1f5f9;
+            border: 1px solid #e7eaf1;
+            color: #0f172a;
+            font-weight: 800;
+        }
+        .btn-ghost {
+            border-radius: 14px;
+            border: 1px solid #e7eaf1;
+            background: #fff;
+            color: #0f172a;
+        }
+        .btn-ghost:hover { background: #f8fafc; }
+        .muted { color: #64748b; }
+        .dropdown-menu {
+            border-radius: 14px;
+            border: 1px solid #e7eaf1;
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.10);
+        }
+
+        .topnav .nav-link {
+            border-radius: 14px;
+            padding: 0.55rem 0.85rem;
+            color: #0f172a;
+        }
+        .topnav .nav-link:hover {
+            background: #f8fafc;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg topnav navbar-light">
+        <div class="container py-2">
+            <a class="navbar-brand" href="{% url 'mvp:dashboard' %}">
+                <span class="brand"><span class="brand-badge"></span> Swaply</span>
+            </a>
+
+            {% if user.is_authenticated %}
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topnavCollapse" aria-controls="topnavCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            {% endif %}
+
+            <div class="collapse navbar-collapse" id="topnavCollapse">
+                {% if user.is_authenticated %}
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mvp:dashboard' %}">Browse</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mvp:my_items' %}">Items</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mvp:my_requests' %}">My Requests</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mvp:requests_on_my_items' %}">Requests on My Items</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'mvp:reviews' %}">Reviews</a>
+                        </li>
+                    </ul>
+                {% endif %}
+
+                <div class="ms-auto d-flex align-items-center gap-2">
+                    {% if user.is_authenticated %}
+                        <div class="dropdown">
+                            <button
+                                class="btn btn-ghost dropdown-toggle d-flex align-items-center gap-2"
+                                type="button"
+                                id="profileMenu"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                <span class="avatar">{{ request.user.username|default:request.user.email|slice:":1"|upper }}</span>
+                                <span class="d-none d-md-inline">{{ request.user.username|default:request.user.email }}</span>
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileMenu">
+                                <li class="px-3 py-2">
+                                    <div class="fw-semibold">{{ request.user.username|default:"Account" }}</div>
+                                    <div class="small muted">{{ request.user.email }}</div>
+                                </li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'mvp:profile' %}">Profile</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li>
+                                    <form method="post" action="{% url 'mvp:logout' %}" class="m-0">
+                                        {% csrf_token %}
+                                        <button class="dropdown-item" type="submit">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags|default:'info' }} mb-2" role="alert">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
